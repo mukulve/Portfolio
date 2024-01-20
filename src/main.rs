@@ -19,6 +19,15 @@ fn main() {
 }
 
 #[component]
+fn Card(header: String, body: String, footer: String) -> impl IntoView {
+    view! {
+        <h1 class="font-medium">{header}</h1>
+        <h2 class="text-sm pb-2">{body}</h2>
+        <p class="">{footer}</p>
+    }
+}
+
+#[component]
 fn Owner() -> impl IntoView {
     let once = create_resource(
         || (),
@@ -55,9 +64,8 @@ fn Education() -> impl IntoView {
     view! {
         <h1 class="text-4xl font-bold pb-4">"Education"</h1>
         <ul>
-            <li class="mb-4 leading-relaxed bg-[#efefef] p-2 rounded-lg">
-                <h1 class="font-medium">"Software Engineering"</h1>
-                <h2 class="text-sm">"University of Guelph | September 2022 - May 2026"</h2>
+            <li class="mb-4 leading-relaxed bg-[#efefef] dark:bg-[#18191A] p-2 rounded-lg">
+                <Card header="Software Engineering".into() body="University of Guelph | September 2022 - May 2026".into() footer="".into()/>
             </li>
         </ul>
     }
@@ -68,10 +76,8 @@ fn Experience() -> impl IntoView {
     view! {
         <h1 class="text-4xl font-bold pb-4">"Experience"</h1>
         <ul>
-            <li class="mb-4 leading-relaxed bg-[#efefef] p-2 rounded-lg">
-                <h1 class="font-medium">"Software Engineer Intern"</h1>
-                <h2 class="text-sm">"Spraying Systems Company | May 2023 - September 2023"</h2>
-                <p class="">"Developed and maintained a variety of .NET applications such as ASP.NET APIs, Blazor Web Apps, Microservices and more. Created tables and views in SQL. Wrote unit tests and integration tests using MSTest. Actively participated in Agile development processes, including daily stand-ups, sprint planning, and retrospective meetings. Created interactive reports using SQL Server Reporting Services and Visual Basic."</p>
+            <li class="mb-4 leading-relaxed bg-[#efefef] dark:bg-[#18191A] p-2 rounded-lg">
+                <Card header="Software Engineer Intern".into() body="Spraying Systems Company | May 2023 - September 2023".into() footer="Developed and maintained a variety of .NET applications such as ASP.NET APIs, Blazor Web Apps, Microservices and more. Created tables and views in SQL. Wrote unit tests and integration tests using MSTest. Actively participated in Agile development processes, including daily stand-ups, sprint planning, and retrospective meetings. Created interactive reports using SQL Server Reporting Services and Visual Basic.".into()/>
             </li>
         </ul>
     }
@@ -103,13 +109,10 @@ fn Projects() -> impl IntoView {
                         .map(|n|
                         view!
                         {
-                            <li class="mb-4 leading-relaxed bg-[#efefef] p-2 rounded-lg">
+                            <li class="mb-4 leading-relaxed bg-[#efefef] dark:bg-[#18191A] p-2 rounded-lg">
                                 <a href={n.html_url}>
-                                    <h1 class="font-medium">{n.name}</h1>
-                                    <h2 class="text-sm">{n.language}</h2>
-                                    <p class="">{n.description}</p>
+                                    <Card header={n.name.into()} body={n.language.unwrap_or("".into())} footer={n.description.unwrap_or("".into())}/>
                                 </a>
-
                             </li>
                         })
                         .collect::<Vec<_>>()
